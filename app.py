@@ -23,6 +23,13 @@ def move():
         return jsonify({"board": board, "winner": winner})
     return jsonify({"board": board, "winner": None})
 
+@app.route("/reset", methods=["POST"])
+def reset():
+    global board, current_player
+    board = [""] * 9
+    current_player = "X"
+    return jsonify({"board": board, "winner": None})
+
 def check_winner():
     wins = [
         (0, 1, 2), (3, 4, 5), (6, 7, 8),   # rows
