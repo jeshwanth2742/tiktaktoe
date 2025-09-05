@@ -6,12 +6,14 @@
     body { text-align: center; font-family: Arial; }
     .board { display: grid; grid-template-columns: repeat(3,100px); margin: 20px auto; }
     .cell { width:100px; height:100px; border:1px solid black; display:flex; align-items:center; justify-content:center; font-size:2em; cursor:pointer; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 1em; }
   </style>
 </head>
 <body>
   <h1>Tic Tac Toe</h1>
   <div class="board" id="board"></div>
   <h2 id="status"></h2>
+  <button onclick="resetGame()">Restart Game</button>
 
   <script>
     let board = Array(9).fill("");
@@ -40,7 +42,16 @@
       if (data.winner) document.getElementById("status").innerText = "Winner: " + data.winner;
     }
 
+    async function resetGame() {
+      const res = await fetch("/reset", { method: "POST" });
+      const data = await res.json();
+      board = data.board;
+      document.getElementById("status").innerText = "";
+      renderBoard();
+    }
+
     renderBoard();
   </script>
 </body>
 </html>
+
